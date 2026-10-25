@@ -14,7 +14,7 @@ else:
 
   # Gemini se high-income micro-SaaS analysis mangwana
   response = client.models.generate_content(
-      model="gemini-3.8-flash",
+      model="gemini-1.5-flash",
       contents=(
           "Act as an elite software architect and startup strategist."
           " Generate 1 high-potential, scalable Micro-SaaS business idea that"
