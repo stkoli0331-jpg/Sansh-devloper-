@@ -14,7 +14,7 @@ else:
 
   # Gemini se message mangwana (Error ke mutabiq updated model name)
   response = client.models.generate_content(
-      model="gemini-2.5-flash",
+      model="gemini-3.8-flash",
       contents=(
           "Hello Sansh-devloper! Write a 1-line powerful startup message for"
           " your cloud automation engine."
