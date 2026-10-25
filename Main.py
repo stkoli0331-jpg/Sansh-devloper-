@@ -12,9 +12,9 @@ else:
 
   print("Sansh-devloper is connecting to Gemini...")
 
-  # Gemini se message mangwana (Updated model name)
+  # Gemini se message mangwana (Error ke mutabiq updated model name)
   response = client.models.generate_content(
-      model="gemini-2.0-flash",
+      model="gemini-2.5-flash",
       contents=(
           "Hello Sansh-devloper! Write a 1-line powerful startup message for"
           " your cloud automation engine."
