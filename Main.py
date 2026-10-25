@@ -44,7 +44,7 @@ else:
       f.write(response_text)
     print(f"\n[SUCCESS] Report generated and saved locally to {filename}!")
 
-    # Autonomous Git Commit and Push
+    # Configure Git and Push with Token
     print("Pushing report to GitHub repository...")
     subprocess.run(
         ["git", "config", "--global", "user.name", "Sansh-devloper Bot"]
@@ -52,6 +52,11 @@ else:
     subprocess.run(
         ["git", "config", "--global", "user.email", "bot@sansh-devloper.local"]
     )
+
+    # Repository URL mein token set karna taaki push block na ho
+    repo_url = f"https://x-access-token:{os.environ.get('GH_TOKEN')}@github.com/{os.environ.get('GITHUB_REPOSITORY')}.git"
+    subprocess.run(["git", "remote", "set-url", "origin", repo_url])
+
     subprocess.run(["git", "add", filename])
     subprocess.run(
         [
@@ -66,10 +71,7 @@ else:
     if push_result.returncode == 0:
       print("[SUCCESS] market_report.md successfully pushed to GitHub repo!")
     else:
-      print(
-          "[WARNING] Git push failed. Please ensure workflow has contents:write"
-          " permissions."
-      )
+      print("[WARNING] Git push failed.")
 
     print("\n--- GENERATED REPORT PREVIEW ---")
     print(response_text)
