@@ -18,7 +18,7 @@ else:
   for attempt in range(max_retries):
     try:
       response = client.models.generate_content(
-          model="gemini-3.8-flash",
+          model="gemini-2.5-flash",
           contents=(
               "Act as an elite software architect. Generate 1 Micro-SaaS"
               " business idea. Provide the output in two sections: First, write"
@@ -31,22 +31,20 @@ else:
       break
     except Exception as e:
       print(
-          f"Attempt {attempt + 1} failed with error: {e}. Waiting 15 seconds for"
-          " server..."
+          f"Attempt {attempt + 1} failed with error: {e}. Waiting 10 seconds..."
       )
-      time.sleep(15)
+      time.sleep(10)
 
   if success:
     with open("market_report.md", "w", encoding="utf-8") as f:
       f.write("# Sansh-devloper Autonomous MVP Report\n\n")
       f.write(response_text)
 
+    # Extract Python code cleanly
     if "
 ```python" in response_text:
-      parts = response_text.split("
-```python")
-      code_part = parts[1].split("
-```")[0]
+      code_part = response_text.split("
+```python")[1].split("```")[0]
       with open("app.py", "w", encoding="utf-8") as f:
         f.write(code_part)
     else:
@@ -81,6 +79,6 @@ else:
     else:
       print("[WARNING] Git push failed.")
   else:
-    print("Error: Server remains busy after all retries.")
+    print("Error: Request failed after retries.")
     exit(1)
     
