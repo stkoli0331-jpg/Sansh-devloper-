@@ -10,23 +10,18 @@ else:
   # New Google GenAI Client initialize karna
   client = genai.Client(api_key=api_key)
 
-  print("Sansh-devloper is scanning global markets for Micro-SaaS ideas...")
+  print("Sansh-devloper is connecting to Gemini...")
 
-  # Gemini se high-income micro-SaaS analysis mangwana
+  # Gemini se message mangwana
   response = client.models.generate_content(
-      model="gemini-1.5-flash",
+      model="gemini-2.0-flash",
       contents=(
-          "Act as an elite software architect and startup strategist."
-          " Generate 1 high-potential, scalable Micro-SaaS business idea that"
-          " can be built with Python and AI APIs. Include: 1. Project Name, 2."
-          " Target Audience, 3. Core Automation Feature, and 4. Monetization"
-          " Strategy. Keep it sharp, structured, and powerful."
+          "Hello Sansh-devloper! Write a 1-line powerful startup message for"
+          " your cloud automation engine."
       ),
   )
 
-  print("\n========================================")
-  print("      SANSH-DEVLOGER MARKET REPORT      ")
-  print("========================================")
+  print("\n--- GEMINI AI OUTPUT ---")
   print(response.text)
-  print("========================================")
+  print("--------------------------")
   
