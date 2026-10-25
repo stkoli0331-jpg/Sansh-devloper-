@@ -40,11 +40,11 @@ else:
       f.write("# Sansh-devloper Autonomous MVP Report\n\n")
       f.write(response_text)
 
-    # Extract Python code cleanly
-    if "
-```python" in response_text:
-      code_part = response_text.split("
-```python")[1].split("```")[0]
+    marker = "
+```python"
+    if marker in response_text:
+      code_part = response_text.split(marker)[1].split("
+```")[0]
       with open("app.py", "w", encoding="utf-8") as f:
         f.write(code_part)
     else:
@@ -60,7 +60,7 @@ else:
         ["git", "config", "--global", "user.email", "bot@sansh-devloper.local"]
     )
 
-    repo_url = f"https://x-access-token:{os.environ.get('GH_TOKEN')}@[github.com/](https://github.com/){os.environ.get('GITHUB_REPOSITORY')}.git"
+    repo_url = f"https://x-access-token:{os.environ.get('GH_TOKEN')}@github.com/{os.environ.get('GITHUB_REPOSITORY')}.git"
     subprocess.run(["git", "remote", "set-url", "origin", repo_url])
 
     subprocess.run(["git", "add", "market_report.md", "app.py"])
