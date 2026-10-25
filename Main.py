@@ -15,9 +15,8 @@ else:
 
   for attempt in range(max_retries):
     try:
-      # Naye SDK ke liye model name ka sahi format
       response = client.models.generate_content(
-          model="gemini-2.5-flash",
+          model="gemini-3.8-flash",
           contents=(
               "Hello Sansh-devloper! Write a 1-line powerful startup message for"
               " your cloud automation engine."
