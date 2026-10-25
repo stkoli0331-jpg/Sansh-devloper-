@@ -9,25 +9,36 @@ if not api_key:
   print("Error: GEMINI_API_KEY nahi mili!")
 else:
   client = genai.Client(api_key=api_key)
-  print("Sansh-devloper is scanning global markets for Micro-SaaS ideas...")
+  print("Sansh-devloper is building the Micro-SaaS MVP and report...")
 
   max_retries = 5
   success = False
-  response_text = ""
+  report_text = ""
+  code_text = ""
 
   for attempt in range(max_retries):
     try:
-      response = client.models.generate_content(
+      # 1. Market Report generate karna
+      response_report = client.models.generate_content(
           model="gemini-3.8-flash",
           contents=(
-              "Act as an elite software architect and startup strategist."
-              " Generate 1 high-potential, scalable Micro-SaaS business idea that"
-              " can be built with Python and AI APIs. Include: 1. Project Name, 2."
-              " Target Audience, 3. Core Automation Feature, and 4. Monetization"
-              " Strategy. Keep it sharp, structured, and powerful."
+              "Act as an elite software architect. Generate 1 high-potential"
+              " Micro-SaaS business idea including Project Name, Target"
+              " Audience, and Core Feature in Markdown format."
           ),
       )
-      response_text = response.text
+      report_text = response_report.text
+
+      # 2. Working Python Code generate karna
+      response_code = client.models.generate_content(
+          model="gemini-3.8-flash",
+          contents=(
+              "Write a simple, clean, and working Python script for this"
+              " Micro-SaaS idea. Provide ONLY valid Python code without extra"
+              " explanation."
+          ),
+      )
+      code_text = response_code.text
       success = True
       break
     except Exception as e:
@@ -38,14 +49,21 @@ else:
       time.sleep(10)
 
   if success:
-    filename = "market_report.md"
-    with open(filename, "w", encoding="utf-8") as f:
-      f.write("# Sansh-devloper Autonomous Market Report\n\n")
-      f.write(response_text)
-    print(f"\n[SUCCESS] Report generated and saved locally to {filename}!")
+    # Local files save karna
+    with open("market_report.md", "w", encoding="utf-8") as f:
+      f.write(report_text)
 
-    # Configure Git and Push with Token
-    print("Pushing report to GitHub repository...")
+    # Markdown backticks saaf karna agar code mein hon
+    cleaned_code = code_text.replace("```python", "").replace("```", "")
+    with open("app.py", "w", encoding="utf-8") as f:
+      f.write(cleaned_code)
+
+    print(
+        "[SUCCESS] market_report.md and app.py generated and saved locally!"
+    )
+
+    # Git Configuration and Push
+    print("Pushing generated files to GitHub repository...")
     subprocess.run(
         ["git", "config", "--global", "user.name", "Sansh-devloper Bot"]
     )
@@ -53,29 +71,24 @@ else:
         ["git", "config", "--global", "user.email", "bot@sansh-devloper.local"]
     )
 
-    # Repository URL mein token set karna taaki push block na ho
     repo_url = f"https://x-access-token:{os.environ.get('GH_TOKEN')}@github.com/{os.environ.get('GITHUB_REPOSITORY')}.git"
     subprocess.run(["git", "remote", "set-url", "origin", repo_url])
 
-    subprocess.run(["git", "add", filename])
+    subprocess.run(["git", "add", "market_report.md", "app.py"])
     subprocess.run(
         [
             "git",
             "commit",
             "-m",
-            "🤖 AI Autonomous Update: New Market Report Generated",
+            "🤖 AI Autonomous Update: Generated Market Report & App MVP",
         ]
     )
     push_result = subprocess.run(["git", "push"])
 
     if push_result.returncode == 0:
-      print("[SUCCESS] market_report.md successfully pushed to GitHub repo!")
+      print("[SUCCESS] Both files successfully pushed to GitHub repo!")
     else:
       print("[WARNING] Git push failed.")
-
-    print("\n--- GENERATED REPORT PREVIEW ---")
-    print(response_text)
-    print("--------------------------------")
   else:
     print("Error: Server busy hone ki wajah se request poori nahi ho payi.")
     exit(1)
