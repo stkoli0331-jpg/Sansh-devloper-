@@ -9,7 +9,7 @@ if not api_key:
     print("Error: GEMINI_API_KEY nahi mili!")
 else:
     client = genai.Client(api_key=api_key)
-    print("Sansh-devloper is connecting to Gemini...")
+    print("Sansh-devloper is generating advanced Streamlit Web App...")
 
     max_retries = 5
     success = False
@@ -20,9 +20,10 @@ else:
             response = client.models.generate_content(
                 model="gemini-3.8-flash",
                 contents=(
-                    "Act as an elite software architect. Generate 1 Micro-SaaS business idea. "
-                    "Provide the output in two sections: First, write the Market Report in Markdown. "
-                    "Second, provide a clean, working Python script for the app inside a python code block."
+                    "Act as an elite software architect and frontend expert. Generate 1 high-value Micro-SaaS business idea. "
+                    "Provide the output in two sections: First, write a detailed Market Report in Markdown. "
+                    "Second, provide a clean, working Python script for a complete **Streamlit web application** (using `import streamlit as st`) "
+                    "with interactive inputs, buttons, and a nice user interface inside a python code block."
                 )
             )
             response_text = response.text
@@ -34,10 +35,9 @@ else:
 
     if success:
         with open("market_report.md", "w", encoding="utf-8") as f:
-            f.write("# Sansh-devloper Autonomous MVP Report\n\n")
+            f.write("# Sansh-devloper Autonomous Advanced MVP Report\n\n")
             f.write(response_text)
 
-        # Clean Code Extraction without string formatting bugs
         code_marker = chr(96) * 3 + "python"
         end_marker = chr(96) * 3
         
@@ -47,9 +47,9 @@ else:
                 f.write(code_part)
         else:
             with open("app.py", "w", encoding="utf-8") as f:
-                f.write("# Fallback app script\nprint('Sansh-devloper MVP Ready!')")
+                f.write("import streamlit as st\nst.title('Sansh-devloper MVP')\nst.write('App ready!')")
 
-        print("[SUCCESS] Files generated successfully!")
+        print("[SUCCESS] Advanced Streamlit files generated successfully!")
 
         subprocess.run(["git", "config", "--global", "user.name", "Sansh-devloper Bot"])
         subprocess.run(["git", "config", "--global", "user.email", "bot@sansh-devloper.local"])
@@ -58,14 +58,14 @@ else:
         subprocess.run(["git", "remote", "set-url", "origin", repo_url])
 
         subprocess.run(["git", "add", "market_report.md", "app.py"])
-        subprocess.run(["git", "commit", "-m", "🤖 AI Autonomous Update: Fast MVP Generation"])
+        subprocess.run(["git", "commit", "-m", "🤖 AI Autonomous Update: Advanced Streamlit Web App MVP"])
         push_result = subprocess.run(["git", "push"])
 
         if push_result.returncode == 0:
-            print("[SUCCESS] Files pushed to GitHub repo!")
+            print("[SUCCESS] Advanced files pushed to GitHub repo!")
         else:
             print("[WARNING] Git push failed.")
     else:
         print("Error: Request failed after retries.")
         exit(1)
-      
+        
