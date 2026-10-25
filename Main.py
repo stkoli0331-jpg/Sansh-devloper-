@@ -15,8 +15,9 @@ else:
 
   for attempt in range(max_retries):
     try:
+      # Naye SDK ke liye model name ka sahi format
       response = client.models.generate_content(
-          model="gemini-1.5-flash",
+          model="gemini-2.5-flash",
           contents=(
               "Hello Sansh-devloper! Write a 1-line powerful startup message for"
               " your cloud automation engine."
@@ -34,6 +35,6 @@ else:
       time.sleep(5)
 
   if not success:
-    print("Error: Server busy hone ki wajah se request poori nahi ho payi.")
+    print("Error: Request poori nahi ho payi.")
     exit(1)
     
