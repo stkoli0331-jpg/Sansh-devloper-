@@ -10,7 +10,7 @@ else:
   client = genai.Client(api_key=api_key)
   print("Sansh-devloper is connecting to Gemini...")
 
-  max_retries = 3
+  max_retries = 5
   success = False
 
   for attempt in range(max_retries):
@@ -29,11 +29,12 @@ else:
       break
     except Exception as e:
       print(
-          f"Attempt {attempt + 1} failed with error: {e}. Retrying in 5 seconds..."
+          f"Attempt {attempt + 1} failed with error: {e}. Retrying in 10"
+          " seconds..."
       )
-      time.sleep(5)
+      time.sleep(10)
 
   if not success:
-    print("Error: Request poori nahi ho payi.")
+    print("Error: Server busy hone ki wajah se request poori nahi ho payi.")
     exit(1)
     
