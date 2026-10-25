@@ -1,48 +1,62 @@
 import streamlit as st
 
-st.set_page_config(page_title="Sansh AI", page_icon="⚡", layout="wide")
+st.set_page_config(page_title="Sansh AI", page_icon="⚡", layout="centered")
 
-# Custom CSS for Professional Look & Heavy Animations
+# Clean, Professional Mobile-First Styling
 st.markdown("""
 <style>
-    @keyframes slideUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+    /* Main background & smooth fonts */
+    .stApp {
+        background-color: #fafafa;
     }
-    .chat-container {
-        animation: slideUp 0.8s ease-out forwards;
-        background-color: #f9fafb;
-        padding: 30px;
-        border-radius: 18px;
-        border: 2px solid #ff6600;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-    }
-    .stButton>button {
-        background-color: #ff6600 !important;
-        color: white !important;
-        font-weight: 800 !important;
+    
+    /* Clean Text Area */
+    .stTextArea textarea {
         border-radius: 12px !important;
-        padding: 14px 28px !important;
-        transition: all 0.3s ease !important;
+        border: 2px solid #e2e8f0 !important;
+        padding: 12px !important;
+        font-size: 15px !important;
     }
+    .stTextArea textarea:focus {
+        border-color: #ff6600 !important;
+        box-shadow: 0 0 0 2px rgba(255, 102, 0, 0.2) !important;
+    }
+
+    /* Modern Gradient Button */
+    .stButton>button {
+        width: 100%;
+        background: linear-gradient(135deg, #ff6600, #ff8533) !important;
+        color: white !important;
+        font-weight: 700 !important;
+        border-radius: 12px !important;
+        padding: 14px 20px !important;
+        border: none !important;
+        box-shadow: 0 4px 14px rgba(255, 102, 0, 0.35);
+        transition: all 0.3s ease;
+    }
+    
     .stButton>button:hover {
-        transform: scale(1.05);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(255, 102, 0, 0.45);
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Main Sansh AI Interface
-st.markdown("<div class='chat-container'>", unsafe_allow_html=True)
-st.title("⚡ Sansh AI - Professional Coder")
-st.markdown("Yeh raha hamara dedicated AI assistant. Yahan sirf high-performance coding, debugging, aur smart chats hongi.")
+# App Header
+st.markdown("## ⚡ Sansh AI")
+st.markdown("<p style='color: #64748b; font-size: 14px; margin-top: -10px;'>High-Performance Professional Coder & Assistant</p>", unsafe_allow_html=True)
+st.markdown("---")
 
-user_prompt = st.text_area("Yahan apni coding query ya bug likhein:", placeholder="Jaise: Python mein ek fast server ka code likho...")
+# Main Interface
+user_prompt = st.text_area("💬 Apna coding sawal ya bug yahan likhein:", placeholder="Jaise: Python mein ek fast API ka code likho...", height=130)
+
+st.write("") # Thoda space dene ke liye
 
 if st.button("🚀 Ask Sansh AI"):
     if user_prompt:
-        with st.spinner("Sansh AI is analyzing and writing code..."):
-            st.success("Code generated successfully!")
-            st.code(f"# Sansh AI Solution for:\n# {user_prompt}\n\ndef sansh_ai_core():\n    print('Sansh AI is fully active!')\n\nsansh_ai_core()", language="python")
+        with st.spinner("Sansh AI is writing code..."):
+            st.success("Code Generated Successfully!")
+            st.code(f"# Sansh AI Solution for:\n# {user_prompt}\n\ndef sansh_core():\n    print('Hello from Sansh AI!')\n\nsansh_core()", language="python")
     else:
         st.warning("Pehle kuch query toh likho bhai!")
-st.markdown("</div>", unsafe_allow_html=True)
+        
