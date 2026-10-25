@@ -18,7 +18,7 @@ else:
   for attempt in range(max_retries):
     try:
       response = client.models.generate_content(
-          model="gemini-1.5-flash",
+          model="gemini-2.5-flash",
           contents=(
               "Act as an elite software architect. Generate 1 Micro-SaaS"
               " business idea. Provide the output in two sections: First, write"
