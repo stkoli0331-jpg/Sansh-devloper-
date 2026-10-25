@@ -9,7 +9,7 @@ if not api_key:
     print("Error: GEMINI_API_KEY nahi mili!")
 else:
     client = genai.Client(api_key=api_key)
-    print("Sansh-devloper is generating Streamlit Web App with active model...")
+    print("Sansh-devloper is generating Streamlit Web App with gemini-3.8-flash...")
 
     max_retries = 3
     success = False
@@ -18,7 +18,7 @@ else:
     for attempt in range(max_retries):
         try:
             response = client.models.generate_content(
-                model="gemini-2.5-flash",
+                model="gemini-3.8-flash",
                 contents=(
                     "Act as an elite software architect and frontend expert. Generate 1 high-value Micro-SaaS business idea. "
                     "Provide the output in two sections: First, write a detailed Market Report in Markdown. "
