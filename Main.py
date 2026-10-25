@@ -9,41 +9,29 @@ if not api_key:
     print("Error: GEMINI_API_KEY nahi mili!")
 else:
     client = genai.Client(api_key=api_key)
-    print("Sansh-devloper is connecting with multi-model fallback...")
+    print("Sansh-devloper is generating Streamlit Web App with active model...")
 
-    models_to_try = ["gemini-3.8-flash", "gemini-2.5-flash", "gemini-1.5-flash"]
+    max_retries = 3
     success = False
     response_text = ""
 
-    for model_name in models_to_try:
-        print(f"Trying model: {model_name}...")
-        max_retries = 3
-        model_success = False
-        
-        for attempt in range(max_retries):
-            try:
-                response = client.models.generate_content(
-                    model=model_name,
-                    contents=(
-                        "Act as an elite software architect and frontend expert. Generate 1 high-value Micro-SaaS business idea. "
-                        "Provide the output in two sections: First, write a detailed Market Report in Markdown. "
-                        "Second, provide a clean, working Python script for a complete **Streamlit web application** (using `import streamlit as st`) "
-                        "with interactive inputs, buttons, and a nice user interface inside a python code block."
-                    )
+    for attempt in range(max_retries):
+        try:
+            response = client.models.generate_content(
+                model="gemini-2.5-flash",
+                contents=(
+                    "Act as an elite software architect and frontend expert. Generate 1 high-value Micro-SaaS business idea. "
+                    "Provide the output in two sections: First, write a detailed Market Report in Markdown. "
+                    "Second, provide a clean, working Python script for a complete **Streamlit web application** (using `import streamlit as st`) "
+                    "with interactive inputs, buttons, and a nice user interface inside a python code block."
                 )
-                response_text = response.text
-                model_success = True
-                break
-            except Exception as e:
-                print(f"Model {model_name} Attempt {attempt + 1} failed: {e}. Waiting 5 seconds...")
-                time.sleep(5)
-        
-        if model_success:
+            )
+            response_text = response.text
             success = True
-            print(f"Successfully generated using {model_name}!")
             break
-        else:
-            print(f"Model {model_name} exhausted retries, trying next model...")
+        except Exception as e:
+            print(f"Attempt {attempt + 1} failed: {e}. Waiting 5 seconds...")
+            time.sleep(5)
 
     if success:
         with open("market_report.md", "w", encoding="utf-8") as f:
@@ -61,7 +49,7 @@ else:
             with open("app.py", "w", encoding="utf-8") as f:
                 f.write("import streamlit as st\nst.title('Sansh-devloper MVP')\nst.write('App ready!')")
 
-        print("[SUCCESS] Advanced Streamlit files generated successfully!")
+        print("[SUCCESS] Files generated successfully!")
 
         subprocess.run(["git", "config", "--global", "user.name", "Sansh-devloper Bot"])
         subprocess.run(["git", "config", "--global", "user.email", "bot@sansh-devloper.local"])
@@ -70,7 +58,7 @@ else:
         subprocess.run(["git", "remote", "set-url", "origin", repo_url])
 
         subprocess.run(["git", "add", "market_report.md", "app.py"])
-        subprocess.run(["git", "commit", "-m", "🤖 AI Autonomous Update: Advanced Streamlit Web App MVP"])
+        subprocess.run(["git", "commit", "-m", "🤖 AI Autonomous Update: Streamlit Web App MVP"])
         push_result = subprocess.run(["git", "push"])
 
         if push_result.returncode == 0:
@@ -78,6 +66,6 @@ else:
         else:
             print("[WARNING] Git push failed.")
     else:
-        print("Error: All models failed due to quota or server limits.")
+        print("Error: Request failed after retries.")
         exit(1)
         
