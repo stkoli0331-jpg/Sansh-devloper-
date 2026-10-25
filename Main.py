@@ -9,9 +9,9 @@ if not api_key:
   print("Error: GEMINI_API_KEY nahi mili!")
 else:
   client = genai.Client(api_key=api_key)
-  print("Sansh-devloper is generating MVP and report...")
+  print("Sansh-devloper is connecting to Gemini...")
 
-  max_retries = 3
+  max_retries = 5
   success = False
   response_text = ""
 
@@ -31,19 +31,22 @@ else:
       break
     except Exception as e:
       print(
-          f"Attempt {attempt + 1} failed with error: {e}. Retrying in 5"
-          " seconds..."
+          f"Attempt {attempt + 1} failed with error: {e}. Waiting 15 seconds for"
+          " server..."
       )
-      time.sleep(5)
+      time.sleep(15)
 
   if success:
     with open("market_report.md", "w", encoding="utf-8") as f:
       f.write("# Sansh-devloper Autonomous MVP Report\n\n")
       f.write(response_text)
 
-    if "```python" in response_text:
-      parts = response_text.split("```python")
-      code_part = parts[1].split("```")[0]
+    if "
+```python" in response_text:
+      parts = response_text.split("
+```python")
+      code_part = parts[1].split("
+```")[0]
       with open("app.py", "w", encoding="utf-8") as f:
         f.write(code_part)
     else:
@@ -78,6 +81,6 @@ else:
     else:
       print("[WARNING] Git push failed.")
   else:
-    print("Error: Request timeout or quota limit reached.")
+    print("Error: Server remains busy after all retries.")
     exit(1)
     
