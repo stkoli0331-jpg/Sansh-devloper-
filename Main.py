@@ -1,4 +1,5 @@
 import os
+import subprocess
 import time
 from google import genai
 
@@ -8,9 +9,7 @@ if not api_key:
   print("Error: GEMINI_API_KEY nahi mili!")
 else:
   client = genai.Client(api_key=api_key)
-  print(
-      "Sansh-devloper is scanning global markets for Micro-SaaS ideas..."
-  )
+  print("Sansh-devloper is scanning global markets for Micro-SaaS ideas...")
 
   max_retries = 5
   success = False
@@ -39,12 +38,39 @@ else:
       time.sleep(10)
 
   if success:
-    # Local workspace mein markdown file generate karna
     filename = "market_report.md"
     with open(filename, "w", encoding="utf-8") as f:
       f.write("# Sansh-devloper Autonomous Market Report\n\n")
       f.write(response_text)
-    print(f"\n[SUCCESS] Report successfully generated and saved to {filename}!")
+    print(f"\n[SUCCESS] Report generated and saved locally to {filename}!")
+
+    # Autonomous Git Commit and Push
+    print("Pushing report to GitHub repository...")
+    subprocess.run(
+        ["git", "config", "--global", "user.name", "Sansh-devloper Bot"]
+    )
+    subprocess.run(
+        ["git", "config", "--global", "user.email", "bot@sansh-devloper.local"]
+    )
+    subprocess.run(["git", "add", filename])
+    subprocess.run(
+        [
+            "git",
+            "commit",
+            "-m",
+            "🤖 AI Autonomous Update: New Market Report Generated",
+        ]
+    )
+    push_result = subprocess.run(["git", "push"])
+
+    if push_result.returncode == 0:
+      print("[SUCCESS] market_report.md successfully pushed to GitHub repo!")
+    else:
+      print(
+          "[WARNING] Git push failed. Please ensure workflow has contents:write"
+          " permissions."
+      )
+
     print("\n--- GENERATED REPORT PREVIEW ---")
     print(response_text)
     print("--------------------------------")
