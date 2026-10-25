@@ -1,131 +1,156 @@
 import streamlit as st
-import datetime
 
 # Page Configuration
-st.set_page_config(
-    page_title="Sansh AI Multi-Tool Studio",
-    page_icon="⚡",
-    layout="wide"
-)
+st.set_page_config(page_title="Sansh AI", page_icon="⚡", layout="wide")
 
-# Custom Styling Header
-st.title("⚡ Sansh AI Multi-Tool Studio")
-st.markdown("### *High-Performance Engineering & Smart Utility Hub*")
-st.write("---")
-
-# Sidebar Navigation for All Modules
-st.sidebar.title("Control Center")
-app_mode = st.sidebar.selectbox(
-    "Choose Section", 
+# Sidebar - Ultimate Theme & Customization Studio
+st.sidebar.title("🎨 Sansh AI Theme Studio")
+theme_choice = st.sidebar.radio(
+    "Theme Mode Choose Karein:", 
     [
-        "Dashboard & Overview", 
-        "AI Code Generator", 
-        "Code Snippet Manager", 
-        "Performance Analyzer", 
-        "Task & Project Tracker", 
-        "Developer Logic Vault", 
-        "System Info"
+        "Light Mode (Claude Orange - Default)", 
+        "Dark Mode (Neon Green)", 
+        "Custom Color Picker 🎨"
     ]
 )
 
-# 1. Dashboard & Overview Section
-if app_mode == "Dashboard & Overview":
-    st.subheader("📊 Performance & Activity Overview")
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric(label="Project Status", value="Active", delta="Stable")
-    with col2:
-        st.metric(label="Code Quality", value="A+", delta="Optimized")
-    with col3:
-        st.metric(label="Deployment Readiness", value="100%", delta="Ready")
-    
-    st.info("💡 Tip: Use the sidebar control center to switch between different high-performance modules.")
+# Theme Logic & Default Colors
+if theme_choice == "Light Mode (Claude Orange - Default)":
+    bg_color = "#ffffff"
+    text_color = "#1f2937"
+    card_bg = "#f9fafb"
+    accent_color = "#ff6600"  # Claude Orange
+    border_color = "#ff6600"
+elif theme_choice == "Dark Mode (Neon Green)":
+    bg_color = "#0e1117"
+    text_color = "#ffffff"
+    card_bg = "#161b22"
+    accent_color = "#00ff66"  # Neon Green
+    border_color = "#00ff66"
+else:
+    # Custom User Choice via Color Picker
+    bg_color = st.sidebar.color_picker("Background Color", "#0e1117")
+    text_color = st.sidebar.color_picker("Text Color", "#ffffff")
+    card_bg = st.sidebar.color_picker("Card Background Color", "#161b22")
+    accent_color = st.sidebar.color_picker("Accent & Icon Color", "#ff6600")
+    border_color = accent_color
 
-# 2. AI Code Generator Module
-elif app_mode == "AI Code Generator":
-    st.subheader("🤖 Smart Code & Logic Generator")
-    st.markdown("Generate clean, production-ready code structure instantly.")
+# Custom CSS with Heavy Animations Everywhere
+css_styles = f"""
+<style>
+    .stApp {{
+        background-color: {bg_color};
+        color: {text_color};
+        transition: all 0.5s ease-in-out;
+    }}
     
-    language = st.selectbox("Choose Language", ["Python", "JavaScript", "C++", "HTML/CSS"])
-    prompt_desc = st.text_area("What do you want to build?", placeholder="e.g., Create a login system with validation")
+    /* Smooth Slide-Up Fade Animation */
+    @keyframes slideUp {{
+        from {{ opacity: 0; transform: translateY(25px); }}
+        to {{ opacity: 1; transform: translateY(0); }}
+    }}
     
-    if st.button("Generate Code Structure"):
-        if prompt_desc:
-            st.success(f"Generated Optimized {language} Blueprint:")
-            sample_code = f"""# Automatically generated for: {prompt_desc}
-# Language: {language}
-# Author: Sansh Developer Hub
+    /* Heavy Glowing Pulse Animation on Hover */
+    @keyframes pulseGlow {{
+        0% {{ box-shadow: 0 0 5px {accent_color}; }}
+        50% {{ box-shadow: 0 0 22px {accent_color}; }}
+        100% {{ box-shadow: 0 0 5px {accent_color}; }}
+    }}
 
-def initialize_system():
-    print("Initializing high-performance module...")
-    # Core logic goes here
-    return True
+    .animated-box {{
+        animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        background-color: {card_bg};
+        padding: 24px;
+        border-radius: 18px;
+        border: 2px solid {border_color};
+        margin-bottom: 22px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }}
 
-if __name__ == "__main__":
-    initialize_system()
+    .animated-box:hover {{
+        animation: pulseGlow 2s infinite;
+        transform: translateY(-4px);
+    }}
+
+    /* Custom Animated Buttons with Glowing Effect */
+    .stButton>button {{
+        background-color: {accent_color} !important;
+        color: #000000 !important;
+        font-weight: 800 !important;
+        border-radius: 12px !important;
+        border: none !important;
+        padding: 14px 28px !important;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }}
+
+    .stButton>button:hover {{
+        transform: scale(1.08) rotate(1deg);
+        opacity: 0.95;
+        box-shadow: 0 10px 25px {accent_color};
+    }}
+
+    /* Success Green Box with Animation */
+    .success-box {{
+        animation: slideUp 0.6s ease forwards;
+        background-color: rgba(0, 255, 102, 0.15);
+        border-left: 6px solid #00ff66;
+        padding: 18px;
+        border-radius: 10px;
+        margin-top: 15px;
+        color: {text_color};
+    }}
+
+    /* Error Red Box with Animation */
+    .error-box {{
+        animation: slideUp 0.6s ease forwards;
+        background-color: rgba(255, 75, 75, 0.15);
+        border-left: 6px solid #ff4b4b;
+        padding: 18px;
+        border-radius: 10px;
+        margin-top: 15px;
+        color: {text_color};
+    }}
+</style>
 """
-            st.code(sample_code, language=language.lower().split('/')[0])
-        else:
-            st.warning("Please describe what you want to build.")
 
-# 3. Code Snippet Manager Section
-elif app_mode == "Code Snippet Manager":
-    st.subheader("💻 Quick Code Snippet Vault")
-    snippet_title = st.text_input("Snippet Title")
-    snippet_code = st.text_area("Write or Paste your Code here:")
-    
-    if st.button("Save Snippet"):
-        if snippet_title and snippet_code:
-            st.success(f"Snippet '{snippet_title}' saved successfully!")
-            st.code(snippet_code, language="python")
-        else:
-            st.warning("Please fill in both the title and code fields.")
+st.markdown(css_styles, unsafe_allow_html=True)
 
-# 4. Performance Analyzer Module
-elif app_mode == "Performance Analyzer":
-    st.subheader("📈 System & Code Efficiency Tracker")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.metric(label="Execution Speed", value="12ms", delta="-4ms Optimized")
-    with col2:
-        st.metric(label="Memory Usage", value="42 MB", delta="Stable")
-    
-    st.info("💡 High-performance metrics running at peak efficiency for commercial deployment.")
+# Main Header Container
+st.markdown("<div class='animated-box'>", unsafe_allow_html=True)
+st.title("⚡ Sansh AI - Pro Studio")
+st.markdown("Default: **Light Mode + Claude Orange**, with full custom theme & heavy animations support!")
+st.markdown("</div>", unsafe_allow_html=True)
 
-# 5. Task & Project Tracker Section
-elif app_mode == "Task & Project Tracker":
-    st.subheader("🎯 Project Milestone Tracker")
-    task_name = st.text_input("New Task Name")
-    if st.button("Add Task"):
-        if task_name:
-            st.success(f"Task added: {task_name}")
-        else:
-            st.error("Task name cannot be empty.")
-    
-    st.write("Current Goals:")
-    st.checkbox("Master Advanced Python & Data Structures")
-    st.checkbox("Build Production-grade Web Apps")
-    st.checkbox("Crack Microsoft SDE Roadmap")
+# Sidebar Wallet & Credits Info
+st.sidebar.markdown("---")
+st.sidebar.subheader("💼 Wallet & Credits")
+st.sidebar.metric(label="Available Credits", value="100 / 100")
+st.sidebar.success("✨ Custom theme switcher active!")
 
-# 6. Developer Logic Vault
-elif app_mode == "Developer Logic Vault":
-    st.subheader("📝 Developer Logic Vault")
-    logic_title = st.text_input("Logic Title")
-    logic_content = st.text_area("Write down core algorithms or notes:")
-    
-    if st.button("Save Logic"):
-        if logic_title:
-            st.success(f"Logic '{logic_title}' securely saved in vault!")
-        else:
-            st.error("Title cannot be empty.")
+# Chat & Code Generator Section
+st.markdown("<div class='animated-box'>", unsafe_allow_html=True)
+st.subheader("💬 Code Generator & Bug Fixer")
+user_prompt = st.text_area(
+    "Yahan apni coding requirement ya error likhein:", 
+    placeholder="Jaise: Python mein fast web app ka code likho..."
+)
 
-# 7. System Info Section
-elif app_mode == "System Info":
-    st.subheader("⚙️ System Configuration")
-    st.write(f"Current Date & Time: {datetime.datetime.now()}")
-    st.write("Platform: Cloud-Native Streamlit Instance")
-    st.success("All systems operating at peak efficiency.")
-
-# Footer
-st.write("---")
-st.markdown("<p style='text-align: center;'>Powered by Sansh Ecosystem | Built for Speed & Dominance</p>", unsafe_allow_html=True)
+if st.button("🚀 Generate & Analyze Code"):
+    if user_prompt:
+        with st.spinner("Sansh AI is processing with smooth animations..."):
+            # Success Green Box Output
+            st.markdown(
+                "<div class='success-box'>✅ <b>Success Box:</b> Code successfully generate ho gaya hai aur bilkul clean hai!</div>", 
+                unsafe_allow_html=True
+            )
+            st.code(f"# Generated Code for: {user_prompt}\n\ndef sansh_ai_solution():\n    print('Sansh AI is running smoothly on mobile!')\n\nsansh_ai_solution()", language="python")
+    else:
+        # Error Red Box Output
+        st.markdown(
+            "<div class='error-box'>❌ <b>Error Box:</b> Bhai pehle kuch text ya prompt toh likh, khali button daba raha hai!</div>", 
+            unsafe_allow_html=True
+        )
+st.markdown("</div>", unsafe_allow_html=True)
+        
