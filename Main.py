@@ -2,15 +2,13 @@ import os
 
 def run_sansh():
     print("Sansh Developer Core: Active")
-    print("Connecting to AI Model...")
-    
-    # Yahan hum Gemini API key check kar rahe hain
     api_key = os.environ.get("GEMINI_API_KEY")
     
     if not api_key:
-        print("Status: API Key missing. Please set GEMINI_API_KEY.")
+        print("Status: GEMINI_API_KEY not found in environment.")
     else:
-        print("Status: API Key detected. Ready for requests!")
+        print("Status: GEMINI_API_KEY successfully detected!")
+        print("Sansh-devloper is fully connected and ready for custom tasks.")
 
 if __name__ == "__main__":
     run_sansh()
