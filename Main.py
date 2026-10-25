@@ -9,61 +9,49 @@ if not api_key:
   print("Error: GEMINI_API_KEY nahi mili!")
 else:
   client = genai.Client(api_key=api_key)
-  print("Sansh-devloper is building the Micro-SaaS MVP and report...")
+  print("Sansh-devloper is generating MVP and report...")
 
-  max_retries = 5
+  max_retries = 3
   success = False
-  report_text = ""
-  code_text = ""
+  response_text = ""
 
   for attempt in range(max_retries):
     try:
-      # 1. Market Report generate karna
-      response_report = client.models.generate_content(
-          model="gemini-3.8-flash",
+      response = client.models.generate_content(
+          model="gemini-1.5-flash",
           contents=(
-              "Act as an elite software architect. Generate 1 high-potential"
-              " Micro-SaaS business idea including Project Name, Target"
-              " Audience, and Core Feature in Markdown format."
+              "Act as an elite software architect. Generate 1 Micro-SaaS"
+              " business idea. Provide the output in two sections: First, write"
+              " the Market Report in Markdown. Second, provide a clean, working"
+              " Python script for the app inside a python code block."
           ),
       )
-      report_text = response_report.text
-
-      # 2. Working Python Code generate karna
-      response_code = client.models.generate_content(
-          model="gemini-3.8-flash",
-          contents=(
-              "Write a simple, clean, and working Python script for this"
-              " Micro-SaaS idea. Provide ONLY valid Python code without extra"
-              " explanation."
-          ),
-      )
-      code_text = response_code.text
+      response_text = response.text
       success = True
       break
     except Exception as e:
       print(
-          f"Attempt {attempt + 1} failed with error: {e}. Retrying in 10"
+          f"Attempt {attempt + 1} failed with error: {e}. Retrying in 5"
           " seconds..."
       )
-      time.sleep(10)
+      time.sleep(5)
 
   if success:
-    # Local files save karna
     with open("market_report.md", "w", encoding="utf-8") as f:
-      f.write(report_text)
+      f.write("# Sansh-devloper Autonomous MVP Report\n\n")
+      f.write(response_text)
 
-    # Markdown backticks saaf karna agar code mein hon
-    cleaned_code = code_text.replace("```python", "").replace("```", "")
-    with open("app.py", "w", encoding="utf-8") as f:
-      f.write(cleaned_code)
+    if "```python" in response_text:
+      parts = response_text.split("```python")
+      code_part = parts[1].split("```")[0]
+      with open("app.py", "w", encoding="utf-8") as f:
+        f.write(code_part)
+    else:
+      with open("app.py", "w", encoding="utf-8") as f:
+        f.write("# Fallback app script\nprint('Sansh-devloper MVP Ready!')")
 
-    print(
-        "[SUCCESS] market_report.md and app.py generated and saved locally!"
-    )
+    print("[SUCCESS] Files generated successfully!")
 
-    # Git Configuration and Push
-    print("Pushing generated files to GitHub repository...")
     subprocess.run(
         ["git", "config", "--global", "user.name", "Sansh-devloper Bot"]
     )
@@ -71,7 +59,7 @@ else:
         ["git", "config", "--global", "user.email", "bot@sansh-devloper.local"]
     )
 
-    repo_url = f"https://x-access-token:{os.environ.get('GH_TOKEN')}@github.com/{os.environ.get('GITHUB_REPOSITORY')}.git"
+    repo_url = f"https://x-access-token:{os.environ.get('GH_TOKEN')}@[github.com/](https://github.com/){os.environ.get('GITHUB_REPOSITORY')}.git"
     subprocess.run(["git", "remote", "set-url", "origin", repo_url])
 
     subprocess.run(["git", "add", "market_report.md", "app.py"])
@@ -80,16 +68,16 @@ else:
             "git",
             "commit",
             "-m",
-            "🤖 AI Autonomous Update: Generated Market Report & App MVP",
+            "🤖 AI Autonomous Update: Fast MVP Generation",
         ]
     )
     push_result = subprocess.run(["git", "push"])
 
     if push_result.returncode == 0:
-      print("[SUCCESS] Both files successfully pushed to GitHub repo!")
+      print("[SUCCESS] Files pushed to GitHub repo!")
     else:
       print("[WARNING] Git push failed.")
   else:
-    print("Error: Server busy hone ki wajah se request poori nahi ho payi.")
+    print("Error: Request timeout or quota limit reached.")
     exit(1)
     
