@@ -1,14 +1,12 @@
-// App State Management (Checking User Login Session)
+// App State Control
 const AppState = {
-    // Yahan hum check karenge ki user logged-in hai ya nahi
-    // Tu ise true karke check kar sakta hai ya baad mein Gmail login API se connect kar dena
+    // Current user context (Local storage or empty guest)
     user: {
-        isLoggedIn: true, 
-        name: "Mohit" // Agar Gmail ID ka naam Mohit hai toh yeh aayega
+        isLoggedIn: false, // Set false for Guest mode
+        name: ""           // Dynamically filled if logged in
     },
     config: {
-        splashDuration: 2500,
-        guestGreeting: "Super AI chat?" // Guest ke liye normal text
+        splashDuration: 2200
     }
 };
 
@@ -23,16 +21,24 @@ class SuperAIAppEngine {
         this.bindEvents();
     }
 
+    // Dynamic Time-Based Greeting
+    getGreetingTimePrefix() {
+        const hour = new Date().getHours();
+        if (hour < 12) return "Good morning";
+        if (hour < 17) return "Good afternoon";
+        return "Good evening";
+    }
+
     renderGreeting() {
         const greetingTarget = document.getElementById("greeting-text");
         if (!greetingTarget) return;
 
-        // Dynamic condition: Agar logged in hai aur naam available hai, toh wahi naam dikhao
+        const timePrefix = this.getGreetingTimePrefix();
+
         if (AppState.user.isLoggedIn && AppState.user.name) {
-            greetingTarget.textContent = AppState.user.name;
+            greetingTarget.textContent = `${timePrefix}, ${AppState.user.name}`;
         } else {
-            // Agar guest hai toh normal text show hoga
-            greetingTarget.textContent = AppState.config.guestGreeting;
+            greetingTarget.textContent = `${timePrefix}`;
         }
     }
 
@@ -68,27 +74,29 @@ class SuperAIAppEngine {
         if (!text) return;
 
         input.value = '';
-        document.getElementById('hero-section').style.display = 'none';
+        const heroSection = document.getElementById('hero-section');
+        if (heroSection) heroSection.style.display = 'none';
 
         const stream = document.getElementById('chat-stream');
         
-        // User Message Bubble
+        // User Bubble
         const userBubble = document.createElement('div');
-        userBubble.className = 'self-end bg-[#e8e6df] text-[#1a1a1a] px-4 py-3 rounded-2xl max-w-[85%] mb-3 text-base';
+        userBubble.className = 'self-end bg-[#e8e4db] text-[#1f1e1b] px-4 py-3 rounded-2xl max-w-[85%] mb-3 text-base';
         userBubble.textContent = text;
         stream.appendChild(userBubble);
 
-        // AI Response Mock
+        // AI Response Stream Placeholder
         setTimeout(() => {
             const aiBubble = document.createElement('div');
-            aiBubble.className = 'self-start text-[#1a1a1a] px-2 py-3 max-w-[90%] mb-3 text-base';
-            aiBubble.textContent = `Super AI: Processing your request...`;
+            aiBubble.className = 'self-start text-[#1f1e1b] px-2 py-3 max-w-[95%] mb-3 text-base';
+            aiBubble.textContent = `Super AI: ${text} ke liye processing complete.`;
             stream.appendChild(aiBubble);
             stream.scrollTop = stream.scrollHeight;
-        }, 500);
+        }, 400);
     }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
     window.app = new SuperAIAppEngine();
 });
+
