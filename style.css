@@ -1,0 +1,35 @@
+body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background-color: #f7f6f2;
+    color: #1a1a1a;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.serif-text {
+    font-family: 'Instrument Serif', Georgia, serif;
+}
+
+.splash-fade-out {
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
+}
+
+.view-fade-in {
+    opacity: 1;
+    animation: fadeIn 0.4s ease-in forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes subtlePulse {
+    0%, 100% { transform: scale(1); opacity: 0.95; }
+    50% { transform: scale(1.03); opacity: 1; }
+}
+
+.pulse-logo {
+    animation: subtlePulse 2.4s ease-in-out infinite;
+}
