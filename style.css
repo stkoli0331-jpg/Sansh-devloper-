@@ -1,13 +1,22 @@
 body {
     font-family: 'Inter', -apple-system, sans-serif;
-    background-color: #f7f6f2;
-    color: #1a1a1a;
+    background-color: #fbf9f5;
+    color: #1f1e1b;
     -webkit-user-select: none;
     user-select: none;
 }
 
 .serif-text {
     font-family: 'Instrument Serif', Georgia, serif;
+}
+
+@keyframes pulseSubtle {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.85; transform: scale(0.98); }
+}
+
+.animate-pulse-subtle {
+    animation: pulseSubtle 2.5s ease-in-out infinite;
 }
 
 .splash-fade-out {
@@ -23,13 +32,4 @@ body {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(4px); }
     to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes subtlePulse {
-    0%, 100% { transform: scale(1); opacity: 0.95; }
-    50% { transform: scale(1.03); opacity: 1; }
-}
-
-.pulse-logo {
-    animation: subtlePulse 2.4s ease-in-out infinite;
 }
