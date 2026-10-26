@@ -1,11 +1,14 @@
+// App State Management (Checking User Login Session)
 const AppState = {
+    // Yahan hum check karenge ki user logged-in hai ya nahi
+    // Tu ise true karke check kar sakta hai ya baad mein Gmail login API se connect kar dena
     user: {
-        isLoggedIn: true,
-        name: "Mohit" // Agar login nahi hai toh ise false ya null kar sakte hain
+        isLoggedIn: true, 
+        name: "Mohit" // Agar Gmail ID ka naam Mohit hai toh yeh aayega
     },
     config: {
         splashDuration: 2500,
-        guestGreeting: "Super AI chat?"
+        guestGreeting: "Super AI chat?" // Guest ke liye normal text
     }
 };
 
@@ -24,9 +27,11 @@ class SuperAIAppEngine {
         const greetingTarget = document.getElementById("greeting-text");
         if (!greetingTarget) return;
 
+        // Dynamic condition: Agar logged in hai aur naam available hai, toh wahi naam dikhao
         if (AppState.user.isLoggedIn && AppState.user.name) {
             greetingTarget.textContent = AppState.user.name;
         } else {
+            // Agar guest hai toh normal text show hoga
             greetingTarget.textContent = AppState.config.guestGreeting;
         }
     }
