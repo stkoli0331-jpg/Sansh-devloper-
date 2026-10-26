@@ -1,35 +1,6 @@
 body {
-    font-family: 'Inter', -apple-system, sans-serif;
     background-color: #fbf9f5;
-    color: #1f1e1b;
-    -webkit-user-select: none;
-    user-select: none;
+    color: #1a1a1a;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-.serif-text {
-    font-family: 'Instrument Serif', Georgia, serif;
-}
-
-@keyframes pulseSubtle {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.85; transform: scale(0.98); }
-}
-
-.animate-pulse-subtle {
-    animation: pulseSubtle 2.5s ease-in-out infinite;
-}
-
-.splash-fade-out {
-    opacity: 0;
-    transition: opacity 0.4s ease-out;
-}
-
-.view-fade-in {
-    opacity: 1;
-    animation: fadeIn 0.4s ease-in forwards;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
-}
