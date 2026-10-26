@@ -4,80 +4,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Super AI</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts for Clean Serif & Sans Serif Typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="h-screen w-screen overflow-hidden flex flex-col bg-[#f7f6f2]">
+<body class="h-screen w-screen overflow-hidden flex flex-col bg-[#fbf9f5] text-[#1f1e1b]">
 
-    <!-- ========================================== -->
-    <!-- 1. LAUNCH / SPLASH SCREEN                  -->
-    <!-- ========================================== -->
-    <section id="splash-view" class="fixed inset-0 z-50 flex flex-col justify-between items-center py-12 px-6 bg-[#f7f6f2]">
-        <div></div> <!-- Spacer -->
-        
-        <!-- Center Logo & Branding -->
-        <div class="flex flex-col items-center pulse-logo">
-            <!-- Starburst Logo SVG -->
-            <div class="w-24 h-24 mb-3 flex items-center justify-center">
-                <svg width="86" height="86" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M50 5 L50 95 M5 50 L95 50 M18 18 L82 82 M18 82 L82 18" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M50 16 L50 84 M16 50 L84 50" stroke="#d96738" stroke-width="2.5" stroke-linecap="round"/>
-                    <path d="M50 30 Q50 50 70 50 Q50 50 50 70 Q50 50 30 50 Q50 50 50 30 Z" fill="#d96738" stroke="#1a1a1a" stroke-width="1.5"/>
-                </svg>
-            </div>
-            <!-- Brand Name -->
-            <h1 class="serif-text text-3xl italic text-[#d96738]">Super AI</h1>
+    <!-- 1. OFFICIAL CLAUDE-STYLE SPLASH SCREEN -->
+    <section id="splash-view" class="fixed inset-0 z-50 flex flex-col justify-between items-center py-16 px-6 bg-[#fbf9f5]">
+        <div></div>
+
+        <!-- Center Brand Row (Logo + Text) -->
+        <div class="flex items-center space-x-3 animate-pulse-subtle">
+            <!-- Terracotta Organic Starburst -->
+            <svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 10 L50 90 M10 50 L90 50 M22 22 L78 78 M22 78 L78 22" stroke="#da6c47" stroke-width="8" stroke-linecap="round"/>
+            </svg>
+            <span class="serif-text text-4xl text-[#1f1e1b] tracking-tight">Super AI</span>
         </div>
 
-        <!-- Footer Credit -->
-        <div class="serif-text text-sm tracking-widest text-gray-500 uppercase">
-            Santosh
+        <!-- Footer Tag -->
+        <div class="serif-text text-xs tracking-[0.25em] text-[#8c8981] uppercase">
+            SANTOSH
         </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- 2. MAIN CHAT & DASHBOARD INTERFACE         -->
-    <!-- ========================================== -->
-    <section id="main-view" class="hidden h-full flex-col justify-between p-4 max-w-lg mx-auto w-full">
-        <!-- Top Navigation -->
-        <header class="flex justify-between items-center py-2">
-            <button class="p-2 text-gray-700">
-                <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+    <!-- 2. MAIN APP INTERFACE -->
+    <section id="main-view" class="hidden h-full flex flex-col justify-between p-4 max-w-md mx-auto w-full">
+        <!-- Top Navigation Bar -->
+        <header class="flex justify-between items-center py-2 px-1">
+            <button class="p-1 text-[#4a4843]">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 7h16M4 12h16M4 17h16"></path></svg>
             </button>
-            <div class="w-7 h-7 rounded-full bg-[#d96738] text-white flex items-center justify-center font-medium text-xs">
-                S
-            </div>
+            <button class="p-1 text-[#4a4843]">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 11c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm0 2c-2.761 0-8 1.382-8 4v2h16v-2c0-2.618-5.239-4-8-4z"></path></svg>
+            </button>
         </header>
 
-        <!-- Dynamic Chat Stream Area -->
-        <div id="chat-stream" class="flex-1 flex flex-col overflow-y-auto my-2">
-            <div id="hero-section" class="my-auto flex flex-col items-center justify-center">
-                <div class="w-14 h-14 mb-3">
-                    <svg width="56" height="56" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M50 5 L50 95 M5 50 L95 50 M18 18 L82 82 M18 82 L82 18" stroke="#1a1a1a" stroke-width="2"/>
-                        <path d="M50 30 Q50 50 70 50 Q50 50 50 70 Q50 50 30 50 Q50 50 50 30 Z" fill="#d96738" stroke="#1a1a1a" stroke-width="1.5"/>
+        <!-- Center Hero Dynamic Greeting -->
+        <main id="chat-stream" class="flex-1 flex flex-col justify-center items-center overflow-y-auto px-2">
+            <div id="hero-section" class="flex flex-col items-center text-center">
+                <div class="mb-4">
+                    <svg width="52" height="52" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 10 L50 90 M10 50 L90 50 M22 22 L78 78 M22 78 L78 22" stroke="#da6c47" stroke-width="7.5" stroke-linecap="round"/>
                     </svg>
                 </div>
-                <!-- Dynamic Greeting Display -->
-                <h2 id="greeting-text" class="serif-text text-4xl text-[#1a1a1a] text-center font-normal"></h2>
+                <h2 id="greeting-text" class="serif-text text-3xl sm:text-4xl text-[#1f1e1b] font-normal">
+                    <!-- Injected via JS -->
+                </h2>
             </div>
-        </div>
+        </main>
 
-        <!-- Floating Chat Input Bar -->
+        <!-- Claude Style Floating Bottom Input Box -->
         <footer class="pb-2">
-            <div class="relative flex items-center bg-white rounded-2xl border border-gray-300 shadow-sm px-4 py-3">
-                <input id="chat-input" type="text" placeholder="Message Super AI..." class="w-full bg-transparent focus:outline-none text-base text-gray-800 pr-10">
-                <button id="send-btn" class="absolute right-3 bg-[#d96738] text-white p-2 rounded-xl flex items-center justify-center">
-                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"></path></svg>
-                </button>
+            <div class="bg-[#f2efe9] rounded-3xl p-3 border border-[#e5e1d8] shadow-sm flex flex-col space-y-3">
+                
+                <!-- Upper Upgrade Bar / Banner -->
+                <div class="flex justify-between items-center text-xs text-[#6e6b63] px-2 pt-1">
+                    <span>Get more with Super AI Pro</span>
+                    <a href="#" class="text-[#6b58e6] font-medium">Upgrade to Pro</a>
+                </div>
+
+                <!-- Input Field -->
+                <div class="px-2">
+                    <input id="chat-input" type="text" placeholder="Chat with Super AI..." class="w-full bg-transparent focus:outline-none text-base text-[#1f1e1b] placeholder-[#8c8981]">
+                </div>
+
+                <!-- Action Toolbar Row -->
+                <div class="flex justify-between items-center pt-1">
+                    <div class="flex items-center space-x-2">
+                        <!-- Plus Attachment Button -->
+                        <button class="w-9 h-9 rounded-full bg-[#e8e4db] flex items-center justify-center text-[#4a4843]">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v12m-6-6h12"></path></svg>
+                        </button>
+                        <!-- Model Selector Capsule -->
+                        <div class="bg-[#e8e4db] px-3 py-1.5 rounded-full text-xs text-[#4a4843] font-medium flex items-center space-x-1">
+                            <span>Super AI 1.0 Pro</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-2">
+                        <!-- Mic Icon -->
+                        <button class="w-9 h-9 rounded-full bg-[#e8e4db] flex items-center justify-center text-[#4a4843]">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 10v2a7 7 0 01-14 0v-2"></path></svg>
+                        </button>
+                        <!-- Voice Waveform Black Circle Button -->
+                        <button id="send-btn" class="w-10 h-10 rounded-full bg-[#1f1e1b] text-white flex items-center justify-center">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v18M8 6v12M16 6v12M4 9v6M20 9v6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </footer>
     </section>
 
-    <!-- Main Engine Script -->
     <script src="app.js"></script>
 </body>
 </html>
+
